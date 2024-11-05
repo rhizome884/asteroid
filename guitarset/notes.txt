@@ -1,0 +1,8 @@
+Create folders and csv files that mirror the MiniLibriSpeech dataset structure.
+
+Tasks:
+  - Create train, validation and test splits
+  - Create preliminary csv files
+  - Convert the six channel hex tracks into single tracks and move them to separate folders labelled from s1     to s6
+  - Create finalised csv files using the MiniLibriSpeech metadata headers
+  - Convert the sample rate to 16000 (or should I do this on the fly?)
