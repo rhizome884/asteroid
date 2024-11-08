@@ -1,8 +1,12 @@
 import os
 import csv
+import librosa
 
 # path to the dataset
 inputdir = 'dataset'
+
+# subdir names
+mixdir = 'mono-pickup'
 
 # lists
 mixture_id = []
@@ -19,11 +23,5 @@ for dirpath, dirnames, filenames in os.walk(inputdir):
         for f in filenames:
             # append mixture id to relevant list
             mixture_id.append(f.strip('.wav'))
-            # append mixture path to relevant list
-            wavpath = os.path.join(dirpath, f)
-            print(wavpath)
-
-            
-            
 
 print(mixture_id)
