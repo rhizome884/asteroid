@@ -2,6 +2,9 @@ import os
 import csv
 import librosa
 
+# Change depending on the dataset!!!
+SAMPLE_RATE = 8000
+
 # path to the dataset
 inputdir = 'dataset_downsample'
 
@@ -15,9 +18,8 @@ mixture_id = []
 mixture_path = []
 source_1_path = []
 source_2_path = []
-
-# add list for strings 3, 4, 5, and 6 after preliminary test
 length = []
+# add list for strings 2, 3, 4, and 5 after preliminary test
 
 # walk through the dataset and extract relevant info for csv:
 # ,mixture_ID,mixture_path,source_1_path,source_2_path,length
@@ -30,8 +32,11 @@ for dirpath, dirnames, filenames in os.walk(inputdir):
                 # append mixture path to relevant list
                 mp = os.path.join(dirpath, f)
                 mixture_path.append(mp)
+                # append number of samples in wav to relevant list
+                y, sr = librosa.load(mp, sr=SAMPLE_RATE)
+                length.append(float(len(y)))
+
         if string_1 in dirpath:
-            print(dirpath)
             for f in filenames:
                 # append string 1 path to relevant list
                 s1p = os.path.join(dirpath, f)
@@ -43,14 +48,4 @@ for dirpath, dirnames, filenames in os.walk(inputdir):
                 s2p = os.path.join(dirpath, f)
                 source_2_path.append(s2p)
 
-
-for mp in mixture_path:
-    print(mp)
-
-for s1p in source_1_path:
-    print(s1p)
-
-for s2p in source_2_path:
-    print(s2p)
-
-print(len(mixture_id), len(mixture_path), len(source_1_path), len(source_2_path))
+# Write the metadata to a csv file
