@@ -87,5 +87,10 @@ for dirpath, dirnames, filenames in os.walk(inputdir):
                 s2pv = os.path.join(dirpath, f)
                 source_2_path_val.append(s2pv)
 
-# Write the metadata to a csv file
-
+# Write the train metadata to a csv file
+with open(csv_train_file, 'w') as file:
+    writer = csv.writer(file)
+    writer.writerow(['', 'mixture_ID', 'mixture_path', 'source_1_path', 'source_2_path', 'length'])
+    for i in range(len(mixture_id_train)):
+        writer.writerow([i, mixture_id_train[i], mixture_path_train[i], source_1_path_train[i],
+                         source_2_path_train[i], length_train[i]])
