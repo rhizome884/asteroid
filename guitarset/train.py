@@ -56,4 +56,4 @@ system = System(model, optimizer, loss, train_loader, val_loader)
 trainer = Trainer(max_epochs=1)
 trainer.fit(system)
 
-# model.separate("female-female-mixture.wav", force_overwrite=True)
+model.separate("test_8kHz.wav", force_overwrite=True)

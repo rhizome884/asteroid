@@ -12,7 +12,7 @@ class GuitarSetDataset(Dataset):
 
     dataset_name = "GuitarSet"
 
-    def __init__(self, csv_path, sample_rate=8000, n_src=2, segment=3):
+    def __init__(self, csv_path, sample_rate=8000, n_src=2, segment=10):
        
         self.csv_path = csv_path
         self.segment = segment
@@ -56,9 +56,14 @@ class GuitarSetDataset(Dataset):
         for i in range(self.n_src):
             source_path = row[f"source_{i + 1}_path"]
             s, _ = sf.read(source_path, dtype="float32", start=start, stop=stop)
+            print(type(s))
+            s = self._cut_if_necessary(s)
+            s = self._right_pad_if_necessary(s)
             sources_list.append(s)
         # Read the mixture
         mixture, _ = sf.read(mixture_path, dtype="float32", start=start, stop=stop)
+        mixture = self._cut_if_necessary(mixture)
+        mixture = self._right_pad_if_necessary(mixture)
         # Convert to torch tensor
         mixture = torch.from_numpy(mixture)
         # Stack sources
@@ -67,17 +72,31 @@ class GuitarSetDataset(Dataset):
         sources = torch.from_numpy(sources)
         return mixture, sources
 
-#if __name__ == "__main__":
-#
-#    # create the train and validation paths
-#    train_path = "dataset_s1s6_8kHz/metadata/train.csv"
-#    val_path = "dataset_s1s6_8kHz/metadata/val.csv"
-#    
-#    # instantiate GuitarSetDataset object(s)
-#    train_set = GuitarSetDataset(train_path)
-#    val_set = GuitarSetDataset(val_path)
-#    train_item = train_set.__getitem__(0)
-#    val_item = val_set.__getitem__(0)
-#    print(len(train_item[0]))
-#    print(len(val_item[0]))
+    def _cut_if_necessary(self, signal):
+        # signal -> tensor -> (channels, number of samples)
+        if signal.shape[0] > self.seg_len:
+            signal = signal[:self.seg_len]
+        return signal
+
+    def _right_pad_if_necessary(self, signal):
+        length_signal = signal.shape[0]
+        if length_signal < self.seg_len:
+            num_missing_samples = self.seg_len - length_signal
+            last_dim_padding = (0, num_missing_samples)
+            signal = torch.nn.functional.pad(torch.from_numpy(signal), last_dim_padding)
+        return signal
+
+if __name__ == "__main__":
+
+    # create the train and validation paths
+    train_path = "dataset_s1s6_8kHz/metadata/train.csv"
+    val_path = "dataset_s1s6_8kHz/metadata/val.csv"
     
+    # instantiate GuitarSetDataset object(s)
+    train_set = GuitarSetDataset(train_path)
+    val_set = GuitarSetDataset(val_path)
+    train_item = train_set.__getitem__(2)
+    val_item = val_set.__getitem__(11)
+    print(len(train_item[0]))
+    print(len(val_item[0]))
+   
