@@ -28,7 +28,7 @@ class GuitarSetDataset(Dataset):
             # Ignore the file shorter than the desired_length
             self.df = self.df[self.df["length"] >= self.seg_len]
             print(
-                f"Drop {max_len - len(self.df)} utterances from {max_len} "
+                f"Drop {max_len - len(self.df)} sounds from {max_len} "
                 f"(shorter than {segment} seconds)"
             )
         else:
@@ -67,14 +67,17 @@ class GuitarSetDataset(Dataset):
         sources = torch.from_numpy(sources)
         return mixture, sources
 
-if __name__ == "__main__":
-
-    # create the train and validation paths
-    train_path = "./dataset_s1s6_8kHz/metadata/train.csv"
-    # val_path = "guitarset_s1s6_8kHz/metadata/val.csv"
-    
-    # instantiate GuitarSetDataset object(s)
-    train_set = GuitarSetDataset(train_path)
-    item = train_set.__getitem__(0)
-    print(len(item))
+#if __name__ == "__main__":
+#
+#    # create the train and validation paths
+#    train_path = "dataset_s1s6_8kHz/metadata/train.csv"
+#    val_path = "dataset_s1s6_8kHz/metadata/val.csv"
+#    
+#    # instantiate GuitarSetDataset object(s)
+#    train_set = GuitarSetDataset(train_path)
+#    val_set = GuitarSetDataset(val_path)
+#    train_item = train_set.__getitem__(0)
+#    val_item = val_set.__getitem__(0)
+#    print(len(train_item[0]))
+#    print(len(val_item[0]))
     
