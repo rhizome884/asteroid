@@ -1,9 +1,12 @@
 import torch
 from torch.utils.data import Dataset
+import numpy as np
 # import matplotlib.pyplot as plt
 import os
 import pandas as pd
 import librosa
+import random
+import soundfile as sf
 
 class GuitarSetDataset(Dataset):
 
@@ -32,12 +35,46 @@ class GuitarSetDataset(Dataset):
             self.seg_len = None
         self.n_src = n_src
 
+    def __len__(self):
+        return len(self.df)
+
+    def __getitem__(self, idx):
+        # Get the row in dataframe
+        row = self.df.iloc[idx]
+        # Get mixture path
+        mixture_path = row["mixture_path"]
+        self.mixture_path = mixture_path
+        sources_list = []
+        # If there is a seg start point is set randomly
+        if self.seg_len is not None:
+            start = random.randint(0, int(row["length"] - self.seg_len))
+            stop = start + self.seg_len
+        else:
+            start = 0
+            stop = None
+        # Read sources
+        for i in range(self.n_src):
+            source_path = row[f"source_{i + 1}_path"]
+            s, _ = sf.read(source_path, dtype="float32", start=start, stop=stop)
+            sources_list.append(s)
+        # Read the mixture
+        mixture, _ = sf.read(mixture_path, dtype="float32", start=start, stop=stop)
+        # Convert to torch tensor
+        mixture = torch.from_numpy(mixture)
+        # Stack sources
+        sources = np.vstack(sources_list)
+        # Convert sources to tensor
+        sources = torch.from_numpy(sources)
+        return mixture, sources
+
 if __name__ == "__main__":
 
     # create the train and validation paths
-    train_path = "guitarset_s1s6_8kHz/metadata/train.csv"
+    train_path = "./dataset_s1s6_8kHz/metadata/train.csv"
     # val_path = "guitarset_s1s6_8kHz/metadata/val.csv"
     
     # instantiate GuitarSetDataset object(s)
     train_set = GuitarSetDataset(train_path)
-
+    item = train_set.__getitem__(0)
+    print(len(item))
+    
