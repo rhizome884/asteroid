@@ -5,18 +5,18 @@ import librosa
 # NEED TO MAKE TRAIN AND VAL CODE MORE COMPACT
 
 # Change depending on the dataset!!!
-SAMPLE_RATE = 8000
+SAMPLE_RATE = 44100
 
 # CSV files
-csv_train_file = 'guitarset_8k_train.csv'
-csv_val_file = 'guitarset_8k_val.csv'
+csv_train_file = 'guitarset_train.csv'
+csv_val_file = 'guitarset_val.csv'
 
 # path to the dataset
-inputdir = 'dataset_downsample'
+inputdir = 'dataset_s1s6'
 
 # subdir names
-mixdir_train = 'train/mono-pickup'
-mixdir_val = 'val/mono-pickup'
+mixdir_train = 'train/mix'
+mixdir_val = 'val/mix'
 string_1_train = 'train/s1'
 string_6_train = 'train/s6'
 string_1_val = 'val/s1'

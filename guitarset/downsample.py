@@ -4,7 +4,7 @@ import soundfile as sf
 
 from utils import print_wav_info
 
-audiodir = 'dataset_downsample'
+audiodir = 'dataset_s1s6_8kHz'
 samplerate = 8000
 
 for dirpath, dirnames, filenames in os.walk(audiodir):
