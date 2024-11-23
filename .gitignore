@@ -1,3 +1,17 @@
+# rhizome's stuff
+*.wav
+*.zip
+*.tar.gz
+guitarduets/Synth/
+guitarduets/data_*/
+guitarduets/lightning_logs/
+guitarduets/model_16k_real_1-epoch
+guitarset/dataset_*/
+guitarset/lightning_logs/
+guitarset/my_model
+tutorials/MiniLibriMix/
+tutorials/lightning_logs/
+
 # Project specific
 uploader_info.yml
 egs/**/exp

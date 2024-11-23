@@ -39,7 +39,7 @@ class LibriMix(Dataset):
     dataset_name = "LibriMix"
 
     def __init__(
-        self, csv_dir, task="sep_clean", sample_rate=16000, n_src=2, segment=3, return_id=False
+        self, csv_dir, task="sep_clean", sample_rate=16000, n_src=2, segment=30, return_id=False
     ):
         self.csv_dir = csv_dir
         self.task = task

@@ -3,8 +3,8 @@ import os
 
 # slices long audio files into shorter clips
 
-INPUT_PATH = "real_train"
-OUTPUT_PATH = "real_train_3s"
+INPUT_PATH = "synth_mono"
+OUTPUT_PATH = "synth_mono_3s"
 
 if not os.path.exists(OUTPUT_PATH):
     os.makedirs(OUTPUT_PATH)

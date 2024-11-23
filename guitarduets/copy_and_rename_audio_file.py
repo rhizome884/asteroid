@@ -1,8 +1,8 @@
 import os
 import shutil
 
-in_dir = 'RealTest'
-out_dir = 'real_test'
+in_dir = 'Synth'
+out_dir = 'synth'
 sub_dir_g1 = 'guitar1'
 sub_dir_g2 = 'guitar2'
 sub_dir_mix = 'mix'
@@ -34,6 +34,8 @@ for dirpath, dirnames, filenames in os.walk(in_dir):
                 elif f == 'guitar2.wav': 
                     dst = os.path.join(out_dir, sub_dir_g2, fname)
                     shutil.copy(src, dst)
-                else:
+                elif f == 'mix.wav': 
                     dst = os.path.join(out_dir, sub_dir_mix, fname)
                     shutil.copy(src, dst)
+                else:
+                    continue
